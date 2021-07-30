@@ -3,12 +3,9 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.UserDao">
     <select id="getUser" resultType="com.example.demo.entity.User">
-       	SELECT * FROM user where account=#{account}
+       	select * from user where account = #{account}
     </select>
     <insert id="addUser">
-        INSERT INTO user
-        (account,password)
-        VALUE
-        (#{account},#{password})
+        insert into user (account, password) values(#{account}, #{password})
     </insert>
 </mapper>
