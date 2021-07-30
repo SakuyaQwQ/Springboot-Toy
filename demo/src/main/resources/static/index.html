@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+    <script src="./js/vue.min.js"></script>
+    <script src="./js/vue-resource.min.js"></script>
+    <script src="./js/jquery-3.5.1.min.js"></script>
+</head>
+
+<body>
+    <div id='box'>
+        <input type='text' id='input_account'>
+        <br><br>
+        <input type='text' id='input_password'>
+        <br><br>
+        <input type='button' @click='login()' value='login'>
+        <input type='button' @click='register()' value='register'>
+    </div>
+    <script type="text/javascript">
+        window.onload = () => {
+            new Vue({
+                el: '#box',
+                methods: {
+                    login: function () {
+                        this.$http
+                            .post('/login', {
+                                account: $('#input_account').val(),
+                                password: $('#input_password').val()
+                            })
+                            .then((res) => {
+                                if (res.bodyText == 'ok') {
+                                    alert('登陆成功')
+                                    setTimeout("javascript:location.href='https://www.baidu.com'", 1000); 
+                                } else {
+                                    alert('登陆失败')
+                                }
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    },
+                    register: function () {
+                        this.$http
+                            .post('/register', {
+                                account: $('#input_account').val(),
+                                password: $('#input_password').val()
+                            })
+                            .then((res) => {
+                                if (res.bodyText == 'ok') {
+                                    alert('注册成功')
+                                } else {
+                                    alert('注册失败')
+                                }
+                            })
+                            .catch((err) => {
+                                console.log(err)
+                            })
+                    },
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>
