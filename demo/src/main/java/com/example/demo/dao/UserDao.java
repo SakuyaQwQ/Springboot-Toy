@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao {
     public User getUser(String account);
-    public int addUser(User user);
-    
+    public void addUser(User user);
 }

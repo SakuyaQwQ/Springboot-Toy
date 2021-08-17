@@ -4,8 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <title>Main</title>
-    <script src="./js/vue.min.js"></script>
-    <script src="./js/vue-resource.min.js"></script>
     <script src="./js/jquery-3.5.1.min.js"></script>
 </head>
 
@@ -15,55 +13,57 @@
         <br><br>
         <input type='text' id='input_password'>
         <br><br>
-        <input type='button' @click='login()' value='login'>
-        <input type='button' @click='register()' value='register'>
+        <input type='button' onclick='login()' value='login'>
+        <input type='button' onclick='register()' value='register'>
     </div>
     <script type="text/javascript">
         window.onload = () => {
-            new Vue({
-                el: '#box',
-                methods: {
-                    login: function () {
-                        this.$http
-                            .post('/login', {
-                                account: $('#input_account').val(),
-                                password: $('#input_password').val()
-                            })
-                            .then((res) => {
-                                if (res.bodyText == 'ok') {
-                                    alert('登陆成功！')
-                                    setTimeout("javascript:location.href='https://www.baidu.com'", 1000); 
-                                } else {
-                                    alert('账号不存在或密码错误！')
-                                }
-                            })
-                            .catch((err) => {
-                                console.log(err)
-                            })
-                    },
-                    register: function () {
-                        this.$http
-                            .post('/register', {
-                                account: $('#input_account').val(),
-                                password: $('#input_password').val()
-                            })
-                            .then((res) => {
-                                if (res.bodyText == 'ok') {
-                                    alert('注册成功！')
-                                } else if(res.bodyText=='error_account'){
-                                    alert('账号应为6-12位的字母、数字！')
-                                } else if(res.bodyText=='error_password'){
-                                    alert('密码应为6-12位的字母、数字、特殊字符！')
-                                } else{
-                                    alert('账号已存在！')
-                                }
-                            })
-                            .catch((err) => {
-                                console.log(err)
-                            })
-                    },
-                }
-            });
+            login = () => {
+                $.ajax({
+                    url: "/login",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        account: $('#input_account').val(),
+                        password: $('#input_password').val()
+                    }),
+                    contentType: 'application/json; charset=UTF-8'
+                }).then((res) => {
+                    if (res === 'ok') {
+                        alert('登陆成功！')
+                        setTimeout("javascript:location.href='https://www.baidu.com'", 1000)
+                    } else {
+                        alert('账号不存在或密码错误！')
+                    }
+                }).catch((err) => {
+                    console.log(err)
+                })
+            }
+
+            register = () => {
+                $.ajax({
+                    url: "/register",
+                    type: 'POST',
+                    data: JSON.stringify({
+                        account: $('#input_account').val(),
+                        password: $('#input_password').val()
+                    }),
+                    contentType: 'application/json; charset=UTF-8'
+                }).then((res) => {
+                    if (res === 'ok') {
+                        alert('注册成功！')
+                    } else if (res === 'error_account') {
+                        alert('账号应为6-12位的字母、数字！')
+                    } else if (res === 'error_password') {
+                        alert('密码应为6-12位的字母、数字、特殊字符！')
+                    } else {
+                        alert('账号已存在！')
+                    }
+                })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
+
         }
     </script>
 </body>
